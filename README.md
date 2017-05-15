@@ -1,6 +1,7 @@
-FRAUD DETECTION CASE STUDY  
+#FRAUD DETECTION CASE STUDY  
 
 INTRODUCTION
+
 This case study was focused around predicting whether or not a given event is fraud as new events are created by users. The events were music festivals and the fraud occurred when a user sold tickets to a fake event. Here is an example of the information provided in the data:
 
 
@@ -27,6 +28,7 @@ We at DREAM Project Foundation are determined to fight against this atrocity, fo
 With four collaborators we created a pipeline to predict the likelihood of fraud for a new event.
 
 CLEANING THE DATA
+
 Our first objective was to determine what classified fraud as fraud. The account type column provided this information. We decided to classify fraud as any event that had an account type of either ['fraudster_event', 'fraudster', 'fraudster_att']. Once classifying fraud and popping the binary column into an array for the y-portion of the model we had to created the training data. One of the first objectives we had was to remove columns with no signal and columns that could potentially contain leakage. Although it is difficult to infer how/if a column contains signal without actually testing it against a base model, in the interest of time we decided to be cautious and only drop seemingly obvious columns. Before dropping columns we converting categorical columns to numeric (['listed', 'ticket_types']), summing relevant columns (['total_quantity','num_previous_payouts'] and replacing missing values with NAN. In addition, we made 'has_header' into dummy variables. Now that the relevant columns were ready to be put into a model, we decided on the columns to drop. For Logistic Regression these columns ended up being  ['approx_payout_date', 'country', 'currency', 'description', 'email_domain', 'event_created', 'event_end', 'event_published', \
                   'event_start', 'fb_published', 'gts', 'has_analytics', 'has_logo', 'name', 'object_id', 'org_desc', 'org_name', \
                   'payee_name', 'payout_type', 'previous_payouts', 'sale_duration', 'sale_duration2', 'show_map', 'ticket_types', \
@@ -38,8 +40,9 @@ For our other models (SVM, Random Forests, AGABoost) we didnt need to remove one
 However, given more time I would have liked to work with the location column, as there was probably hidden signal.
 
 MODELS
+
 Our baseline Logistic Regression Model had an accuracy and F1 score in the low seventies and high sixties, respectively. This was with very little feature engineering, other than converting categorical columns to numeric representations. Our baseline GradientBoosted model and SVM models had  F1 scores significantly higher than the Logistic Regression, in the high eighties for each. Once transforming our dataframe into the form mentioned above, we improved our F1 scores for SVM:RBF and Gradient Boosted models to the mid nineties. Eventually we decided to use the Gradient Boosting Classifier as our final model.
 
 CONCLUSION
+
 Our final Gradient Boosted model had an accuracy of ~97% and an F1 score of ~95%. To put our model into practice we pickled it and incorporated it into an app hosted online with Flask. The app was designed to receive new event data points in real time and make a prediction on whether they are fraud or not. In conclusion, our model had strong predictive power. In addition, the use of a gradient boosted model provided better interpretability in relation to the features that contained the most signal. 
-# FraudDetectionCase
